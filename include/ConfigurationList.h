@@ -14,7 +14,7 @@ private:
 
 public:
 	ConfigurationList();
-	ConfigurationList(string filename = "");
+	ConfigurationList(string filename);
 	~ConfigurationList();
 
 	/*

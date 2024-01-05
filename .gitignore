@@ -4,6 +4,10 @@ build/*
 output
 output/*
 cmake_install.cmake
+lib
+lib/*
+bin
+bin/*
 
 # https://github.com/github/gitignore/blob/main/CMake.gitignore
 CMakeLists.txt.user
