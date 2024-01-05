@@ -1,15 +1,18 @@
-#include "ConfigurationLoaderLib.h"
+#include <ConfigurationLoaderLib.h>
+#include <stdexcept>
 
 using namespace std;
 
 ConfigurationList::ConfigurationList() {
 	this->filename = "";
 	this->isLoaded = false;
+	blocks = vector<PropertyBlock*>();  // Namindu - issue #1
 }
 
 ConfigurationList::ConfigurationList(string filename) {
 	this->filename = filename;
 	this->isLoaded = false;
+	blocks = vector<PropertyBlock*>();  // Namindu - issue #1
 }
 
 ConfigurationList::~ConfigurationList() {
@@ -71,7 +74,8 @@ void ConfigurationList::SaveToFile() {
 	ofstream file(this->filename, std::ofstream::out | std::ofstream::trunc);
 
 	if (!file.is_open()) {
-		throw exception("Error saving to file");
+		//throw "Error saving to file";
+		throw runtime_error("Error saving to file");  // Namindu - issue #2
 	}
 
 
@@ -123,7 +127,8 @@ vector<PropertyBlock*> ConfigurationList::GetBlocks() const {
 
 PropertyBlock* ConfigurationList::AddBlock(string block) {
 	if (block == "") {
-		throw exception("Block name cannot be empty");
+		//throw "Block name cannot be empty";
+		throw runtime_error("Block name cannot be empty");  // Namindu - issue #2
 	}
 	PropertyBlock* newBlock = new PropertyBlock(block);
 	this->blocks.push_back(newBlock);

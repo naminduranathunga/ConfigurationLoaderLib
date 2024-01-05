@@ -1,7 +1,3 @@
-#pragma once
-
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
 #ifndef CONFIGURATIONLIST_H 
 #define CONFIGURATIONLIST_H 1
 
@@ -79,4 +75,4 @@ public:
 	void SaveToFile();
 };
 
-#endif
+#endif // !CONFIGURATIONLIST_H
