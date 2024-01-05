@@ -19,10 +19,12 @@ public:
 
 	/*
 	* @brief get a single block by name
-	* @param name the name of the block
+	* returns default block if name is empty
+	*
+	* @param name the name of the block (optional)
 	* @return the block PropertyBlock*
 	*/
-	PropertyBlock* GetBlock(string name);
+	PropertyBlock* GetBlock(string name = "");
 
 	/*
 	* @brief get all blocks by name
@@ -71,8 +73,33 @@ public:
 
 	/*
 	* @brief Saves the configuration to the file
+	* @deprecated
 	*/
 	void SaveToFile();
+
+	/**
+	 * @brief Saves the configuration to the file.
+	 * This function will save the configuration to the file specified in the constructor or filename if specified.
+	 * 
+	 * @param filename The filename to save to (Optional)
+	*/
+	void save(string filename = "");
+
+
+	/**
+	 * @brief Get Property value of default block
+	 * @param name The name of the property as string
+	 * 
+	*/
+	string GetPropertyValue(string name);
+
+	/**
+	 * @brief Set Property value of default block
+	 * @param name The name of the property as string
+	 * @param value The value of the property as string
+	*/
+	void SetPropertyValue(string name, string value);
+
 };
 
 #endif // !CONFIGURATIONLIST_H

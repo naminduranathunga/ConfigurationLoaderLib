@@ -9,6 +9,14 @@
  * @website https://github.com/naminduranathunga/ConfigurationLoaderLib 
  * @license MIT
  * 
+ * 
+ * Changes from version 1.0.0
+ *  - Default block can be access directly by ConfigurationList object
+ *      - ConfigurationList::GetPropertyValue(string name)
+ *      - ConfigurationList::SetPropertyValue(string name, string value)
+ *  - Added a new save() function to save the configuration to the file to current filename or specified filename
+ *  - Bug fixes #1
+ *  - Improved error handling
 */
 
 #ifndef CONF_LOADER_LIB_H
