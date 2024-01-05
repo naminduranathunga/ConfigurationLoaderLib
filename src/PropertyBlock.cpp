@@ -1,4 +1,4 @@
-#include "ConfigurationLoaderLib.h"
+#include <ConfigurationLoaderLib.h>
 
 using namespace std;
 
@@ -7,10 +7,19 @@ using namespace std;
 */
 PropertyBlock::PropertyBlock() {
 	this->name = "unnamed";
+	//initialize vectors
+	this->names = vector<string>();
+	this->values = vector<string>();
 }
 
 PropertyBlock::PropertyBlock(string name) {
+	if (name == "") {
+		name = "unnamed";
+	}
 	this->name = name;
+	//initialize vectors
+	this->names = vector<string>();
+	this->values = vector<string>();
 }
 
 PropertyBlock::PropertyBlock(PropertyBlock*& block) {

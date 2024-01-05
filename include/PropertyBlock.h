@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef PROPERTYBLOCK_H
 #define PROPERTYBLOCK_H 1
 
@@ -61,4 +59,4 @@ public:
 
 };
 
-#endif
+#endif // !PROPERTYBLOCK_H

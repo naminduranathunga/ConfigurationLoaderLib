@@ -1,15 +1,18 @@
-#include "ConfigurationLoaderLib.h"
+#include <ConfigurationLoaderLib.h>
+#include <stdexcept>
 
 using namespace std;
 
 ConfigurationList::ConfigurationList() {
 	this->filename = "";
 	this->isLoaded = false;
+	blocks = vector<PropertyBlock*>();  // Namindu - issue #1
 }
 
 ConfigurationList::ConfigurationList(string filename) {
 	this->filename = filename;
 	this->isLoaded = false;
+	blocks = vector<PropertyBlock*>();  // Namindu - issue #1
 }
 
 ConfigurationList::~ConfigurationList() {
@@ -71,7 +74,8 @@ void ConfigurationList::SaveToFile() {
 	ofstream file(this->filename, std::ofstream::out | std::ofstream::trunc);
 
 	if (!file.is_open()) {
-		throw exception("Error saving to file");
+		//throw "Error saving to file";
+		throw runtime_error("Error saving to file");  // Namindu - issue #2
 	}
 
 
@@ -96,6 +100,10 @@ void ConfigurationList::SaveToFile() {
 
 
 PropertyBlock* ConfigurationList::GetBlock(string name) {
+	if (name == ""){
+		name = "unnamed";
+	}
+
 	for (int i = 0; i < this->blocks.size(); i++) {
 		if (this->blocks[i]->GetName() == name) {
 			return this->blocks[i];
@@ -123,7 +131,8 @@ vector<PropertyBlock*> ConfigurationList::GetBlocks() const {
 
 PropertyBlock* ConfigurationList::AddBlock(string block) {
 	if (block == "") {
-		throw exception("Block name cannot be empty");
+		//throw "Block name cannot be empty";
+		throw runtime_error("Block name cannot be empty");  // Namindu - issue #2
 	}
 	PropertyBlock* newBlock = new PropertyBlock(block);
 	this->blocks.push_back(newBlock);
@@ -146,4 +155,56 @@ string ConfigurationList::GetFilename() const {
 
 bool ConfigurationList::IsLoaded() const {
 	return this->isLoaded;
+}
+
+// Namindu - adding new save function
+void ConfigurationList::save(string filename) {
+	if (filename == "") {
+		filename = this->filename;
+	}
+
+	ofstream file(filename, std::ofstream::out | std::ofstream::trunc);
+
+	if (!file.is_open()) {
+		//throw "Error saving to file";
+		throw runtime_error("Error saving to file : " + filename);  // Namindu - issue #2
+	}
+
+	bool isNotFirst = true;
+	for (int i = 0; i < this->blocks.size(); i++) {
+		if (this->blocks[i]->GetName() != "unnamed") {
+			if (!isNotFirst) {
+				file << endl;
+			}
+			file << "[" << this->blocks[i]->GetName() << "]" << endl;
+			isNotFirst = false;
+		}
+
+		vector<string> names = this->blocks[i]->GetPropertyNames();
+		for (int j = 0; j < names.size(); j++) {
+			file << names[j] << "=" << this->blocks[i]->GetPropertyValue(names[j]) << endl;
+		}
+	}
+
+	file.close();
+}
+
+string ConfigurationList::GetPropertyValue(string name){
+	//get the default block
+	PropertyBlock* block = this->GetBlock();
+	if (block == nullptr) {
+		return "";
+	}
+	return block->GetPropertyValue(name);
+}
+
+//SetPropertyValue(string name, string value)
+void ConfigurationList::SetPropertyValue(string name, string value){
+	//get the default block
+	PropertyBlock* block = this->GetBlock();
+	if (block == nullptr) {
+		block = new PropertyBlock("unnamed");
+		this->AddBlock(block);
+	}
+	block->AddProperty(name, value);
 }
